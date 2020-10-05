@@ -1,0 +1,24 @@
+.wrapperTodos {
+  width: 100vw;
+  padding: 30px;
+  background-color: cadetblue;
+  color: #eaeaea;
+  text-align: center;
+}
+
+.containerListTodo {
+  width: 700px;
+  margin: 10px auto;
+}
+
+.containerEditInput {
+  position: relative;
+}
+
+.inputEdit {
+  position: absolute;
+  top: 4px;
+  left: 40px;
+  width: 300px;
+  border: none;
+}
