@@ -1,4 +1,11 @@
-export const addTodo = newTodo => ({ type: 'ADD_TODO', newTodo })
-export const toggleTodo = (todo) =>({ type: 'TOGGLE_TODO', todo })
-export const deleteTodo = (todo) =>({ type: 'DELETE_TODO', todo })
-export const updateTodo = (todo, newTitle) =>({ type: 'UPDATE_TODO', todo, newTitle })
+import actionCreatorFactory from "typescript-fsa";
+
+const actionCreator = actionCreatorFactory('todos')
+
+export const addTodo = actionCreator<{title: String}>('ADD_TODO')
+export const toggleTodo = actionCreator<{id: Number}>('TOGGLE_TODO')
+export const deleteTodo = actionCreator<{id: Number}>('DELETE_TODO')
+export const updateTodo = actionCreator<{id: Number, newTitle: String}>('UPDATE_TODO')
+export const getAllTodos = actionCreator('ALL')
+export const getActiveList = actionCreator('ACTIVE')
+export const getCompletedList = actionCreator('COMPLETED')

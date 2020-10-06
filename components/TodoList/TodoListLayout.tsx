@@ -15,7 +15,7 @@ const TodoListLayout = () => {
   }
   
   const addNewTodo = async (title) => {
-    await dispatch(todoAction.addTodo(title))
+    await dispatch(todoAction.addTodo({title: title}))
   }
 
   return (

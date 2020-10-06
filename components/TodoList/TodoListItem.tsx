@@ -16,23 +16,17 @@ const TodoListItem = ({ children }) => {
       icon: "warning",
     }).then(async result => {
       if (!result.value) return;
-      await dispatch(actionTodo.deleteTodo(todo))
-      await Swal.fire({
-        text: 'Deleted this todo successfully',
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500
-      })
+      await dispatch(actionTodo.deleteTodo({id: todo.id}))
     })
   }
   
   const handleChecked = (todo) => {
-    dispatch(actionTodo.toggleTodo(todo))
+    dispatch(actionTodo.toggleTodo({id: todo.id}))
   }
   
-  const handleEditTodo = (e) => {
+  const handleEditTodo = (e, children) => {
     if (e.key === 'Enter') {
-      dispatch(actionTodo.updateTodo(children, e.target.value.trim()))
+      dispatch(actionTodo.updateTodo({id: children.id, newTitle: e.target.value.trim()}))
       setShowEdit(false)
     }
   }
@@ -48,10 +42,10 @@ const TodoListItem = ({ children }) => {
           <Form.Check type="checkbox" as={Col} md={10}>
             <Form.Check.Input
               type="checkbox"
-              id={children.id}
+              id={children?.id}
               onChange={() => handleChecked(children)}
             />
-            <Form.Check.Label onDoubleClick={handleDoubleClick}>{children.title}</Form.Check.Label>
+            <Form.Check.Label onDoubleClick={handleDoubleClick} defaultValue={children?.completed}>{children?.title}</Form.Check.Label>
           </Form.Check>
         </Col>
         <Button className="btn-danger float-right" onClick={() => handleRemoveTodo(children)} as={Col} md={1}>
@@ -59,8 +53,8 @@ const TodoListItem = ({ children }) => {
         </Button>
       </Row>
       <Form.Control
-        defaultValue={children.title}
-        onKeyPress={handleEditTodo}
+        defaultValue={children?.title}
+        onKeyPress={(e) => handleEditTodo(e, children)}
         className={`${showEdit ? '' : 'd-none'} ${styles.inputEdit}`}
       />
     </ListGroup.Item>

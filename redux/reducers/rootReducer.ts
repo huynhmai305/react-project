@@ -1,12 +1,17 @@
 import { TodoListState, initialTodoList, todoListReducer} from './todoReducer'
+import {UserState, initialUser, userReducer} from './userReducer'
+
 export type RootState = {
-  todoList: TodoListState
+  todoList: TodoListState,
+  user: UserState
 }
 
 export const initialState = {
-  todoList: initialTodoList
+  todoList: initialTodoList,
+  user: initialUser
 }
 
 export default {
-  todoList: todoListReducer
+  todoList: todoListReducer,
+  user: userReducer
 }

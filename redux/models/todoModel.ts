@@ -1,20 +1,7 @@
-export type Todo = {
+export type TodoList = {
   id?: number,
   title?: string,
   completed?: boolean
-}
+}[]
 
-export type TodoList = Todo[]
-
-export const initTodoList: TodoList = [
-  {
-    id: 0,
-    title: 'Todo 1',
-    completed: true
-  },
-  {
-    id: 1,
-    title: 'Todo 2',
-    completed: false
-  }
-]
+export const initTodoList: TodoList = []
