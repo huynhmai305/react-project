@@ -32,7 +32,7 @@ const Sidebar = () => {
   });
 
   return (
-    <Navbar bg="dark" variant="dark" className={styles.navbar}>
+    <Navbar bg="dark" variant="dark" className={styles.navbar} fixed="top">
       <Navbar.Brand href="#home">Navbar</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="#home">Home</Nav.Link>

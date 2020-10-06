@@ -1,4 +1,4 @@
-import TodoList from "../components/TodoList/TodoListLayout";
+import TodoList from "../components/todos/TodoListLayout";
 import React from "react";
 
 const Todos = () => {
