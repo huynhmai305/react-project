@@ -1,9 +1,7 @@
 import React from "react";
 
 const LessonList = () => {
-  return (
-    <div />
-  )
-}
+  return <div />;
+};
 
-export default LessonList
+export default LessonList;

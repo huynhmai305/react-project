@@ -1,6 +1,6 @@
-import actionCreatorFactory from "typescript-fsa"
-import {User} from "../models/userModel";
+import actionCreatorFactory from "typescript-fsa";
+import { User } from "../models/userModel";
 
-const actionCreator = actionCreatorFactory()
+const actionCreator = actionCreatorFactory();
 
-export const setUser = actionCreator<User>('SET_USER')
+export const setUser = actionCreator<User>("SET_USER");

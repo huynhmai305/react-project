@@ -1,8 +1,8 @@
-import React from "react"
-import LessonList from '../components/lesson/LessonList'
+import React from "react";
+import LessonList from "../components/lesson/LessonList";
 
 const List = () => {
-  return <LessonList />
-}
+  return <LessonList />;
+};
 
-export default List
+export default List;

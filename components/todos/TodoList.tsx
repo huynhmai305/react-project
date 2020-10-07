@@ -1,51 +1,66 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import TodoListItem from "./TodoListItem";
-import {Button, ButtonGroup, ListGroup} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/reducers/rootReducer";
-import styles from '../styles/TodoList.module.scss'
-import * as actions from '../../redux/actions/todoAction'
+import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers/rootReducer";
+import styles from "../styles/TodoList.module.scss";
+import * as actions from "../../redux/actions/todoAction";
+// import { isEmpty } from "lodash";
 
 const TodoList = () => {
-  const todoList = useSelector((state: RootState) => state.todoList)
-  const [list, setList] = useState<any>([])
-  const dispatch = useDispatch()
+  const todoList = useSelector((state: RootState) => state.todoList);
+  // const visibleFilterList = useSelector(
+  //   (state: RootState) => state?.visibilityFilter
+  // );
+  const dispatch = useDispatch();
 
-  const getAllList = async () => {
-    await dispatch(actions.getAllTodos())
-  }
-  
-  const getActiveList = async () => {
-    await dispatch(actions.getActiveList())
-  }
-  
-  const getCompletedList = async () => {
-    await dispatch(actions.getCompletedList())
-  }
+  const getVisibleTodos = async (todos, filter) => {
+    switch (filter) {
+      case actions.visibilityFilters.SHOW_ALL:
+        return todos;
+      case actions.visibilityFilters.SHOW_ACTIVE:
+        return todos.filter((t) => !t.completed);
+      case actions.visibilityFilters.SHOW_COMPLETED:
+        return todos.filter((t) => t.completed);
+    }
+  };
 
-  useEffect(() => {
-    if (!todoList) return;
-    setList(todoList);
-  })
+  const setVisible = async (filter) => {
+    dispatch(
+      actions.setVisibilityFilter(await getVisibleTodos(todoList, filter))
+    );
+  };
 
   return (
     <div className={styles.containerListTodo}>
       <ListGroup as="ul">
-        {list.map((todo, index) => (
-          <TodoListItem key={index}>
-            {todo}
-          </TodoListItem>
+        {todoList.map((todo, index) => (
+          <TodoListItem key={index}>{todo}</TodoListItem>
         ))}
         <ListGroup.Item as="li" className="text-center">
           <ButtonGroup>
-            <Button onClick={getAllList}>All</Button>
-            <Button onClick={getActiveList}>Active</Button>
-            <Button onClick={getCompletedList}>Completed</Button>
+            <Button
+              onClick={() => setVisible(actions.visibilityFilters.SHOW_ALL)}
+            >
+              All
+            </Button>
+            <Button
+              onClick={() => setVisible(actions.visibilityFilters.SHOW_ACTIVE)}
+            >
+              Active
+            </Button>
+            <Button
+              onClick={() =>
+                setVisible(actions.visibilityFilters.SHOW_COMPLETED)
+              }
+            >
+              Completed
+            </Button>
           </ButtonGroup>
         </ListGroup.Item>
       </ListGroup>
     </div>
-  )
-}
+  );
+};
 
-export default TodoList
+export default TodoList;

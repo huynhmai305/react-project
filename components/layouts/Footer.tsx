@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from '../../styles/Home.module.scss'
+import styles from "../../styles/Home.module.scss";
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
         <span>Copyright © Huynh Mai</span>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
