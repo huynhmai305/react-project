@@ -1,9 +1,6 @@
 import { TodoListState, initialTodoList, todoListReducer } from "./todoReducer";
 import { UserState, initialUser, userReducer } from "./userReducer";
-import {
-  initialVisibleFilter,
-  visibilityFilterReducer,
-} from "./visibilityFilterReducer";
+import { visibilityFilterReducer } from "./visibilityFilterReducer";
 
 export type RootState = {
   todoList: TodoListState;
@@ -14,7 +11,6 @@ export type RootState = {
 export const initialState = {
   todoList: initialTodoList,
   user: initialUser,
-  visibleFilter: initialVisibleFilter,
 };
 
 export default {
