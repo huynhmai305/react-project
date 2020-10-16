@@ -1,8 +1,8 @@
-import ProductList from "../components/products/ProductList";
+import Index from "../components/products";
 import React from "react";
 
 const Products = () => {
-  return <ProductList />;
+  return <Index />;
 };
 
 export default Products;

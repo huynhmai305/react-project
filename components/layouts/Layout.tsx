@@ -7,7 +7,7 @@ import Sidebar from "./Navbar";
 import { getProfileUser } from "../../pages/api/auth";
 import { setUser } from "../../redux/actions/userAction";
 import firebase from "firebase";
-import { firebaseConfig } from "../../database/firebase";
+import { firebaseConfig } from "../../lib/firebase";
 import { isEmpty } from "lodash";
 import { useDispatch } from "react-redux";
 
@@ -35,7 +35,9 @@ const Layout = ({ children }) => {
   return (
     <div className={styles.container}>
       <Header />
-      <Sidebar />
+      <header>
+        <Sidebar />
+      </header>
       <main className={styles.main}>{children}</main>
       <Footer />
     </div>

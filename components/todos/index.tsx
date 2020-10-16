@@ -1,28 +1,28 @@
 import Layout from "../layouts/Layout";
 import React from "react";
-import styles from '../styles/TodoList.module.scss'
-import {Form} from "react-bootstrap";
-import TodoList from "./TodoList";
-import {useDispatch} from "react-redux";
-import * as todoAction from '../../redux/actions/todoAction'
+import styles from "../styles/TodoList.module.scss";
+import { Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import * as todoAction from "../../redux/actions/todoAction";
+import VisibleTodoList from "./VisibleTodoList";
 
-const TodoListLayout = () => {
+const Index = () => {
   const dispatch = useDispatch();
   const handleNewTodo = async (e) => {
-    if (e.key === 'Enter') {
-      await addNewTodo(e.target.value.trim())
+    if (e.key === "Enter") {
+      await addNewTodo(e.target.value.trim());
     }
-  }
-  
+  };
+
   const addNewTodo = async (title) => {
-    await dispatch(todoAction.addTodo({title: title}))
-  }
+    await dispatch(todoAction.addTodo({ title: title }));
+  };
 
   return (
     <Layout>
       <div>
         <div className={styles.wrapperTodos}>
-          <h1 className="text-uppercase">to do list</h1>
+          <h1 className="text-uppercase mt-5">to do list</h1>
           <div className="d-flex justify-content-center">
             <Form.Control
               type="text"
@@ -33,10 +33,10 @@ const TodoListLayout = () => {
             />
           </div>
         </div>
-        <TodoList />
+        <VisibleTodoList />
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default TodoListLayout
+export default Index;

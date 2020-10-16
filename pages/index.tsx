@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Layout from "../components/layouts/Layout";
 import firebase from "firebase";
-import { firebaseConfig } from "../database/firebase";
+import { firebaseConfig } from "../lib/firebase";
 import { Image } from "react-bootstrap";
 import styles from "../styles/Home.module.scss";
 
