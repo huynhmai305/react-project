@@ -13,13 +13,13 @@ export interface Quiz {
 
 export const QuestionBank: Question[] = [
   {
-    question: "how build the app ?",
-    answers: ["vinayak", "sarthak", "somil", "devesh"],
-    correct: "vinayak",
+    question: "Cái gì luôn đến nhưng không bao giờ đến ?",
+    answers: ["Ngày mai", "Ngày hôm qua", "Ngày nào đó", "Ngày nào cũng được"],
+    correct: "Ngày mai",
     questionId: "099099",
   },
   {
-    question: "how build the app ?",
+    question: "Con gì không đập thì chết ?",
     answers: ["vinayak", "sarthak", "somil", "devesh"],
     correct: "vinayak",
     questionId: "093909",

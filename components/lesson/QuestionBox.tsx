@@ -4,7 +4,7 @@ import { QuestionBoxProps } from "../../redux/models/questionModel";
 import styles from "../styles/Quiz.module.scss";
 
 const QuestionBox = (props: QuestionBoxProps) => {
-  const [option] = useState<any>(props.options);
+  const [answers] = useState<any>(props.options);
   const [selected, setSelected] = useState();
 
   const handleOption = (text, index) => {
@@ -15,7 +15,7 @@ const QuestionBox = (props: QuestionBoxProps) => {
   return (
     <div className={styles.questionBox}>
       <div className={styles.question}>{props.question}</div>
-      {option.map((text, index) => (
+      {answers.map((text, index) => (
         <Button
           key={index}
           onClick={() => handleOption(text, index)}
