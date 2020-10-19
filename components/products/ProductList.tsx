@@ -1,6 +1,6 @@
 import React from "react";
 import ProductItem from "./ProductItem";
-import { productListProps } from "../../redux/models/productModel";
+import { productListProps } from "../../models/productModel";
 
 const ProductList = (props: productListProps) => {
   return (

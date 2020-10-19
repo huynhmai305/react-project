@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { signInWithGoogle } from "../../pages/api/auth";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/actions/userAction";
+import { setUser } from "../../actions/userAction";
 import PropTypes from "prop-types";
 
 const ModalSignInGoogle = ({ show, onHide }) => {

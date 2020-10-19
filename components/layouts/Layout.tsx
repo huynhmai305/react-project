@@ -5,7 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Navbar";
 import { getProfileUser } from "../../pages/api/auth";
-import { setUser } from "../../redux/actions/userAction";
+import { setUser } from "../../actions/userAction";
 import firebase from "firebase";
 import { firebaseConfig } from "../../lib/firebase";
 import { isEmpty } from "lodash";

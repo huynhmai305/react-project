@@ -15,9 +15,9 @@ import { firebaseConfig } from "../../lib/firebase";
 import { signOut } from "../../pages/api/auth";
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/reducers";
-import { setUser } from "../../redux/actions/userAction";
-import { initialUser } from "../../redux/reducers/userReducer";
+import { RootState } from "../../reducers";
+import { setUser } from "../../actions/userAction";
+import { initialUser } from "../../reducers/userReducer";
 import Link from "next/link";
 
 const Sidebar = () => {

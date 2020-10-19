@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/reducers";
+import { RootState } from "../../reducers";
 import styles from "../styles/TodoList.module.scss";
-import * as actions from "../../redux/actions/todoAction";
+import * as actions from "../../actions/todoAction";
 import TodoList from "./TodoList";
 
 const VisibleTodoList = () => {

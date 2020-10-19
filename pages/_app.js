@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { wrapper } from "../redux/store";
+import { wrapper } from "../store";
 
 // eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => {

@@ -3,7 +3,7 @@ import React from "react";
 import styles from "../styles/TodoList.module.scss";
 import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import * as todoAction from "../../redux/actions/todoAction";
+import * as todoAction from "../../actions/todoAction";
 import VisibleTodoList from "./VisibleTodoList";
 
 const Index = () => {

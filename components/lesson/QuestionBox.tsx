@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { QuestionBoxProps } from "../../redux/models/questionModel";
+import { QuestionBoxProps } from "../../models/questionModel";
 import styles from "../styles/Quiz.module.scss";
 
 const QuestionBox = (props: QuestionBoxProps) => {

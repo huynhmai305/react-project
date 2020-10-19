@@ -1,5 +1,5 @@
 import React from "react";
-import { ResultProps } from "../../redux/models/questionModel";
+import { ResultProps } from "../../models/questionModel";
 import styles from "../styles/Quiz.module.scss";
 import { Button } from "react-bootstrap";
 // import Effect from "./Effect";

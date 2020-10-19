@@ -2,7 +2,7 @@ import { Button, ListGroup, Form, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import * as actionTodo from "../../redux/actions/todoAction";
+import * as actionTodo from "../../actions/todoAction";
 import Swal from "sweetalert2";
 import styles from "../styles/TodoList.module.scss";
 

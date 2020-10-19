@@ -1,5 +1,5 @@
 import React from "react";
-import { productProps } from "../../redux/models/productModel";
+import { productProps } from "../../models/productModel";
 import { Badge, Button, Image } from "react-bootstrap";
 import styles from "../styles/ProductList.module.scss";
 
