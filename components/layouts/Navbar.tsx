@@ -64,9 +64,9 @@ const Sidebar = () => {
             Lessons Quiz app
           </Nav.Link>
         </Link>
-        <Link href={"/posts"} passHref>
-          <Nav.Link className={activeTab === "/posts" ? "active" : ""}>
-            Posts
+        <Link href={"/quiz-game"} passHref>
+          <Nav.Link className={activeTab === "/quiz-game" ? "active" : ""}>
+            Quiz game
           </Nav.Link>
         </Link>
       </Nav>
