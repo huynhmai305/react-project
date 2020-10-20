@@ -8,7 +8,7 @@ import {
   ButtonGroup,
   Image,
 } from "react-bootstrap";
-import ModalSignInGoogle from "../auth/modalSignInGoogle";
+import ModalSignIn from "../auth/ModalSignIn";
 import styles from "../../styles/Home.module.scss";
 import firebase from "firebase";
 import { firebaseConfig } from "../../lib/firebase";
@@ -48,7 +48,10 @@ const Sidebar = () => {
   return (
     <Navbar bg="dark" variant="dark" className={styles.navbar} fixed="top">
       <Navbar.Brand href="/">Shop</Navbar.Brand>
-      <Nav className="mr-auto" onSelect={handleSelect}>
+      <Nav
+        className={`mr-auto ${user.id ? "" : "d-none"}`}
+        onSelect={handleSelect}
+      >
         <Link href={"/todos"} passHref>
           <Nav.Link className={activeTab === "/todos" ? "active" : ""}>
             Todos
@@ -64,8 +67,16 @@ const Sidebar = () => {
             Lessons Quiz app
           </Nav.Link>
         </Link>
+        <Link href={"/shopping-cart"} passHref>
+          <Nav.Link className={activeTab === "/shopping-cart" ? "active" : ""}>
+            Shopping cart
+          </Nav.Link>
+        </Link>
         <Link href={"/quiz-game"} passHref>
-          <Nav.Link className={activeTab === "/quiz-game" ? "active" : ""}>
+          <Nav.Link
+            className={activeTab === "/quiz-game" ? "active" : ""}
+            disabled
+          >
             Quiz game
           </Nav.Link>
         </Link>
@@ -74,8 +85,8 @@ const Sidebar = () => {
         {/*<FormControl type="text" placeholder="Search" className="mr-sm-2" />*/}
         {user.id ? (
           <Dropdown as={ButtonGroup}>
-            <Button variant="outline-info">
-              {user.id ? (
+            <Button variant="outline-info" href={"/profile"}>
+              {user.photoURL ? (
                 <Image
                   src={user.photoURL}
                   className={styles.avatar}
@@ -95,12 +106,13 @@ const Sidebar = () => {
             </Dropdown.Menu>
           </Dropdown>
         ) : (
-          <Button variant="outline-info" onClick={handleShow}>
-            <i className="fas fa-sign-in-alt" /> Sign In Google
-            <i className={`fab fa-google ${styles.icon_google} ml-1`} />
-          </Button>
+          <div className="nav navbar-nav ml-auto">
+            <Button variant="outline-info" onClick={handleShow}>
+              <i className="fas fa-sign-in-alt" /> Sign In
+            </Button>
+          </div>
         )}
-        <ModalSignInGoogle show={show} onHide={handleClose} />
+        <ModalSignIn show={show} onHide={handleClose} />
       </Form>
     </Navbar>
   );

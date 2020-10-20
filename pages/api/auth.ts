@@ -11,6 +11,32 @@ export const signInWithGoogle = async () => {
   if (auth.currentUser) return await saveProfileUser();
 };
 
+export const signInWithEmailPassword = async (
+  email: string,
+  password: string
+) => {
+  const auth = firebase.auth();
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const signUpWithEmailPassword = async (
+  email: string,
+  password: string
+) => {
+  const auth = firebase.auth();
+  await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+  } catch (error) {
+    return { error };
+  }
+  if (auth.currentUser) return await saveProfileUser();
+};
+
 export const signOut = async () => {
   if (firebase.auth().currentUser) {
     await firebase.auth().signOut();

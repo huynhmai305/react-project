@@ -66,7 +66,7 @@ const ContainerCard = () => {
   });
 
   return (
-    <Layout>
+    <>
       <div className={styles.wrapperQuiz}>
         {!categorySelected && <h1 className={styles.h1}>Pick a category</h1>}
         {!categorySelected &&
@@ -88,7 +88,7 @@ const ContainerCard = () => {
           ""
         )}
       </div>
-    </Layout>
+    </>
   );
 };
 
