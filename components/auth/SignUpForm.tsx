@@ -45,7 +45,7 @@ const SignUpForm = (props: FormSignInProps) => {
     const result: any = await signUpWithEmailPassword(email, password);
     if (result?.error) {
       setLoading(false);
-      return setErrors(translateError(result.error));
+      return setErrors({ response: translateError(result.error) });
     }
     setLoading(false);
     setErrors({});
@@ -54,6 +54,9 @@ const SignUpForm = (props: FormSignInProps) => {
 
   return (
     <Form>
+      <FormGroup>
+        <span className="text-danger">{errors?.response}</span>
+      </FormGroup>
       <FormGroup>
         <Form.Label>Phone</Form.Label>
         <PhoneInput

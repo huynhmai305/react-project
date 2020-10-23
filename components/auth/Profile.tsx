@@ -1,61 +1,120 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../layouts/Layout";
-import {Button, Col, Form, FormGroup} from "react-bootstrap";
+import { Button, Col, Form, FormGroup, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import styles from "../styles/Profile.module.scss";
 import { isEmpty } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reducers";
+import { setUser } from "../../actions/userAction";
+import { updateProfile } from "../../pages/api/auth";
+import firebase from "firebase";
 
 const MyProfile = () => {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const user = useSelector((state: RootState) => state.user);
+  const [avatar, setAvatar] = useState<string>();
   const [phone, setPhone] = useState<string>();
-  const [name, setName] = useState<string>();
-  const [address, setAddress] = useState<string>();
-  const [tax, setTax] = useState<string>();
+  const [name, setName] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [tax, setTax] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [imageName, setImageName] = useState<string>("");
+  const dispatch = useDispatch();
 
   const validateUpdateProfile = (values) => {
     const errorsProfile: any = {};
-    if (!values.name) errorsProfile.name = "Please enter name";
-    if (!values.password) {
-      errorsProfile.password = "Please enter password";
-    } else if (values.password.length < 6) {
-      errorsProfile.password = "Minimum be 6 characters or more";
-    }
-    if (!values.phone) {
-      errorsProfile.phone = "Please enter phone";
-    } else if (values.phone.length !== 10) {
-      errorsProfile.phone = "Invalid phone, phone must 10 character";
+    if (values.phone.length > 0 && values.phone.length !== 11) {
+      errorsProfile.phone = "Invalid phone, ex: +84 987 654 321";
     }
     return errorsProfile;
   };
 
-  const updateProfile = async () => {
-    const errors = await validateUpdateProfile({
-      name,
-      phone,
-      tax,
-      address,
-      password,
+  const handleAvatar = async (img) => {
+    setImageName(img.name);
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    const storageRef = firebase.storage().ref();
+    const uploadTask = storageRef
+      .child(`images/${new Date().getTime()}_${img.name}`)
+      .put(img, metadata);
+
+    uploadTask.on("state_changed", () => {
+      try {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setAvatar(downloadURL);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     });
+  };
+
+  const updateProfileUser = async () => {
+    setLoading(true);
+    const errors = await validateUpdateProfile({ name, phone, tax, address });
     if (!isEmpty(errors)) {
       setLoading(false);
-      setErrors(errors);
+      return setErrors(errors);
     }
+    const values = { name, phone, tax, address, avatar };
+    await dispatch(setUser(values));
+    await updateProfile(values);
+    return setLoading(false);
   };
+
+  useEffect(() => {
+    if (user) {
+      setAvatar(user?.photoURL);
+      setName(user?.name);
+      setPhone(user?.phone);
+      setTax(user?.tax);
+      setAddress(user?.address);
+    }
+  }, [user.name, user.photoURL, user.phone, user.tax, user.address]);
 
   return (
     <Layout>
       <div className={styles.wrapperProfiles}>
         <Form onSubmit={updateProfile}>
+          <FormGroup className="text-center">
+            {avatar ? (
+              <Image src={avatar} thumbnail style={{ width: "200px" }} />
+            ) : (
+              <i className="fas fa-user-alt fa-3x default-user text-secondary" />
+            )}
+          </FormGroup>
+          <Form.Group>
+            <Form.File
+              name="image"
+              autoFocus
+              required
+              label={imageName || "Product image"}
+              onChange={(e) => handleAvatar(e.target.files[0])}
+              custom
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.File
+              className="position-relative"
+              required
+              name="file"
+              label="File"
+              isInvalid={!!errors.file}
+              feedback={errors.file}
+              feedbackTooltip
+            />
+          </Form.Group>
           <FormGroup>
-            <Form.Label>Shop name</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
               name="name"
               className="form-control"
-              placeholder="Enter shop name"
+              placeholder="Enter name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <span className="text-danger">{errors?.name}</span>
@@ -66,7 +125,8 @@ const MyProfile = () => {
               <PhoneInput
                 country={"vn"}
                 placeholder="Enter phone number"
-                onChange={(phone) => setPhone(phone.replace("84", "0"))}
+                value={phone}
+                onChange={(phone) => setPhone(phone)}
                 inputProps={{
                   name: "phone",
                   required: true,
@@ -82,6 +142,7 @@ const MyProfile = () => {
                 name="tax"
                 className="form-control"
                 placeholder="Enter tax code"
+                value={tax}
                 onChange={(e) => setTax(e.target.value)}
               />
               <span className="text-danger">{errors?.tax}</span>
@@ -94,36 +155,24 @@ const MyProfile = () => {
               name="address"
               className="form-control"
               placeholder="Enter address"
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
             <span className="text-danger">{errors?.address}</span>
           </FormGroup>
-          <Form.Row>
-            <FormGroup as={Col}>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                className="form-control"
-                value={email}
-                disabled
-              />
-            </FormGroup>
-            <FormGroup as={Col}>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                name="password"
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span className="text-danger">{errors?.password}</span>
-            </FormGroup>
-          </Form.Row>
+          <FormGroup>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              className="form-control"
+              value={user?.email}
+              disabled
+            />
+          </FormGroup>
           <FormGroup>
             <Button
-              type="submit"
+              onClick={updateProfileUser}
               className="btn-primary btn-block"
               disabled={loading}
             >

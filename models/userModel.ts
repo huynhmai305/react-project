@@ -3,6 +3,10 @@ export type User = {
   name?: string;
   email?: string;
   photoURL?: string;
+  phone?: string;
+  tax?: string;
+  address?: string;
+  role?: string;
 };
 
 export const initUser = {
@@ -10,4 +14,10 @@ export const initUser = {
   name: "",
   email: "",
   photoURL: "",
+};
+
+export const Role = {
+  admin: "admin",
+  shop: "shop",
+  customer: "customer",
 };

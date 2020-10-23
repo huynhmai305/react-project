@@ -1,6 +1,6 @@
 export type Product = {
   id: string;
-  name: string;
+  productName: string;
   price: number;
   url: string;
   description: string;
@@ -13,12 +13,13 @@ export type productProps = {
 
 export type productListProps = {
   productList: Product[];
+  shopId?: string;
 };
 
 export const initProducts: Product[] = [
   {
     id: "nextjs_halfmoon",
-    name: "Halfmoon Betta",
+    productName: "Halfmoon Betta",
     price: 25.0,
     url: "",
     image: "/images/halfmoon.jpg",
@@ -27,7 +28,7 @@ export const initProducts: Product[] = [
   },
   {
     id: "nextjs_dragonscale",
-    name: "Dragon Scale Betta",
+    productName: "Dragon Scale Betta",
     price: 35,
     url: "",
     image: "/images/dragonscale.jpg",
@@ -36,7 +37,7 @@ export const initProducts: Product[] = [
   },
   {
     id: "nextjs_crowntail",
-    name: "Crowntail Betta",
+    productName: "Crowntail Betta",
     price: 7.5,
     url: "",
     image: "/images/crowntail.jpg",
@@ -45,7 +46,7 @@ export const initProducts: Product[] = [
   },
   {
     id: "nextjs_veiltail",
-    name: "Veiltail Betta",
+    productName: "Veiltail Betta",
     price: 5.0,
     image: "/images/veiltail.jpg",
     description:

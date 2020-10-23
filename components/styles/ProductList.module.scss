@@ -2,7 +2,7 @@
   display: grid;
   width: 100%;
   grid-template-areas:
-  "title        title         image"
+  "title        title        image"
   "description  description  image"
   "button       button       image"
   ".            .            image";
@@ -86,4 +86,11 @@
       transition: all 0.3s cubic-bezier(0.16, 0.8, 0.66, 1.54);
     }
   }
+}
+
+.productShop {
+  width: 80vw;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
 }

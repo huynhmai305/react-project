@@ -19,6 +19,7 @@ import { RootState } from "../../reducers";
 import { setUser } from "../../actions/userAction";
 import { initialUser } from "../../reducers/userReducer";
 import Link from "next/link";
+import { Role } from "../../models/userModel";
 
 const Sidebar = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -48,39 +49,59 @@ const Sidebar = () => {
   return (
     <Navbar bg="dark" variant="dark" className={styles.navbar} fixed="top">
       <Navbar.Brand href="/">Shop</Navbar.Brand>
-      <Nav
-        className={`mr-auto ${user.id ? "" : "d-none"}`}
-        onSelect={handleSelect}
-      >
-        <Link href={"/todos"} passHref>
-          <Nav.Link className={activeTab === "/todos" ? "active" : ""}>
-            Todos
-          </Nav.Link>
-        </Link>
-        <Link href={"/products"} passHref>
-          <Nav.Link className={activeTab === "/products" ? "active" : ""}>
-            Products
-          </Nav.Link>
-        </Link>
-        <Link href={"/lessons"} passHref>
-          <Nav.Link className={activeTab === "/lessons" ? "active" : ""}>
-            Lessons Quiz app
-          </Nav.Link>
-        </Link>
-        <Link href={"/shopping-cart"} passHref>
-          <Nav.Link className={activeTab === "/shopping-cart" ? "active" : ""}>
-            Shopping cart
-          </Nav.Link>
-        </Link>
-        <Link href={"/quiz-game"} passHref>
-          <Nav.Link
-            className={activeTab === "/quiz-game" ? "active" : ""}
-            disabled
-          >
-            Quiz game
-          </Nav.Link>
-        </Link>
-      </Nav>
+      {user.id && user.role === Role.admin && (
+        <Nav className="mr-auto" onSelect={handleSelect}>
+          <Link href={"/todos"} passHref>
+            <Nav.Link
+              className={activeTab === "/todos" ? "active" : ""}
+              disabled
+            >
+              Todos
+            </Nav.Link>
+          </Link>
+          <Link href={"/products/all"} passHref>
+            <Nav.Link className={activeTab === "/products" ? "active" : ""}>
+              Products List
+            </Nav.Link>
+          </Link>
+          <Link href={"/lessons"} passHref>
+            <Nav.Link
+              className={activeTab === "/lessons" ? "active" : ""}
+              disabled
+            >
+              Lessons Quiz app
+            </Nav.Link>
+          </Link>
+          <Link href={"/quiz-game"} passHref>
+            <Nav.Link
+              className={activeTab === "/quiz-game" ? "active" : ""}
+              disabled
+            >
+              Quiz game
+            </Nav.Link>
+          </Link>
+        </Nav>
+      )}
+      {user.id && user.role === Role.shop && (
+        <Nav className="mr-auto" onSelect={handleSelect}>
+          <Link href={"/products/[shopId]"} as={"/products/list"} passHref>
+            <Nav.Link className={activeTab === "/my-products" ? "active" : ""}>
+              My products
+            </Nav.Link>
+          </Link>
+        </Nav>
+      )}
+      {user.id && user.role === Role.customer && (
+        <Nav className="mr-auto" onSelect={handleSelect}>
+          <Link href={"/products"} as={"/shopping-cart"} passHref>
+            <Nav.Link
+              className={activeTab === "/shopping-cart" ? "active" : ""}
+            >
+              Shopping cart
+            </Nav.Link>
+          </Link>
+        </Nav>
+      )}
       <Form inline>
         {/*<FormControl type="text" placeholder="Search" className="mr-sm-2" />*/}
         {user.id ? (

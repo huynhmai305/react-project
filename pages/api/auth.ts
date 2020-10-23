@@ -54,8 +54,10 @@ export const saveProfileUser = async () => {
     email: currentUser.email,
     name: currentUser.displayName,
     photoURL: currentUser.photoURL,
+    createAt: new Date(),
+    updateAt: new Date(),
   };
-  await db.collection(MY_APP_COLLECTION_KEY).doc(uid).set({ profile });
+  await db.collection(MY_APP_COLLECTION_KEY).doc(uid).set(profile);
   return profile;
 };
 
@@ -67,4 +69,19 @@ export const getProfileUser = async () => {
   const uid = currentUser.uid.toString();
   const result = await db.collection(MY_APP_COLLECTION_KEY).doc(uid).get();
   if (result && result.data()) return result.data();
+};
+
+export const updateProfile = async (user: any) => {
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
+  if (!currentUser) return {};
+  const uid = currentUser.uid.toString();
+  await db.collection(MY_APP_COLLECTION_KEY).doc(uid).update({
+    name: user?.name,
+    phone: user?.phone,
+    tax: user?.tax,
+    address: user?.address,
+    photoURL: user?.avatar,
+    updateAt: new Date(),
+  });
 };

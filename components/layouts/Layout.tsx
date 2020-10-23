@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   const getUserLayout = async () => {
     const user = await getProfileUser();
     if (!isEmpty(user)) {
-      dispatch(setUser(user?.profile));
+      dispatch(setUser(user));
     }
   };
 
