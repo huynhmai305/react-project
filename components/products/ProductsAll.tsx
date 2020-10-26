@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TableProducts from "./TableProducts";
-import { getListProductsAll } from "../../pages/api/products";
+import { getListProductsAll } from "../../api/products";
 import Layout from "../layouts/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { setListProduct } from "../../actions/productAction";
+import styles from "../styles/ProductList.module.scss";
 
 const ProductsAll = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -23,7 +24,7 @@ const ProductsAll = () => {
 
   return (
     <Layout>
-      <div className="w-80 pt-2">
+      <div className={styles.product_all}>
         <TableProducts productList={list} />
       </div>
     </Layout>

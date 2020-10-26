@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../layouts/Layout";
 import TableProducts from "./TableProducts";
-import { addProduct, getListProductsShop } from "../../pages/api/products";
+import { addProduct, getListProductsShop } from "../../api/products";
 import { isEmpty } from "lodash";
 import { Button } from "react-bootstrap";
 import styles from "../styles/ProductList.module.scss";

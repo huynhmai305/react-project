@@ -7,12 +7,18 @@ import {
   productReducer,
 } from "./productReducer";
 import { initialQuiz, quizReducer, QuizState } from "./quizReducer";
+import {
+  categoriesReducer,
+  CategoriesState,
+  initialCategories,
+} from "./categoryReducer";
 
 export type RootState = {
   todoList: TodoListState;
   user: UserState;
   productList: ProductsState;
   quiz: QuizState;
+  categories: CategoriesState,
 };
 
 export const initialState = {
@@ -20,6 +26,7 @@ export const initialState = {
   user: initialUser,
   productList: initialProducts,
   quiz: initialQuiz,
+  categories: initialCategories,
 };
 
 export default {
@@ -28,4 +35,5 @@ export default {
   visibilityFilter: visibilityFilterReducer,
   productList: productReducer,
   quiz: quizReducer,
+  categories: categoriesReducer,
 };

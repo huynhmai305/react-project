@@ -12,7 +12,7 @@ import {
   setQuizQuestion,
   updateCurrentQuestion,
 } from "../../actions/quizAction";
-import { getQuiz, getSession } from "../../pages/api/quiz";
+import { getQuiz, getSession } from "../../api/quiz";
 import styles from "../styles/Quiz.module.scss";
 import Layout from "../layouts/Layout";
 

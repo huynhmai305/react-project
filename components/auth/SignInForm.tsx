@@ -5,7 +5,7 @@ import {
   getProfileUser,
   signInWithEmailPassword,
   signInWithGoogle,
-} from "../../pages/api/auth";
+} from "../../api/auth";
 import { setUser } from "../../actions/userAction";
 import { useDispatch } from "react-redux";
 import { FormSignInProps } from "../../models/authModel";
@@ -68,7 +68,6 @@ const SignInForm = (props: FormSignInProps) => {
         <span className="text-danger">{errors?.response}</span>
       </FormGroup>
       <FormGroup>
-        {errors?.response}
         <Form.Label>Email</Form.Label>
         <Form.Control
           type="email"

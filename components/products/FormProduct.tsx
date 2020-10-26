@@ -110,7 +110,7 @@ const FormProduct = (props: Props) => {
               autoFocus
               required
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => setPrice(parseInt(e.target.value))}
             />
           </Form.Group>
         </Form.Row>

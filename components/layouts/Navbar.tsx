@@ -12,7 +12,7 @@ import ModalSignIn from "../auth/ModalSignIn";
 import styles from "../../styles/Home.module.scss";
 import firebase from "firebase";
 import { firebaseConfig } from "../../lib/firebase";
-import { signOut } from "../../pages/api/auth";
+import { signOut } from "../../api/auth";
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
@@ -48,7 +48,10 @@ const Sidebar = () => {
 
   return (
     <Navbar bg="dark" variant="dark" className={styles.navbar} fixed="top">
-      <Navbar.Brand href="/">Shop</Navbar.Brand>
+      <Navbar.Brand href="/" className="text-info">
+        <i className="fas fa-shopping-cart" />
+        Shopping cart
+      </Navbar.Brand>
       {user.id && user.role === Role.admin && (
         <Nav className="mr-auto" onSelect={handleSelect}>
           <Link href={"/todos"} passHref>
@@ -59,8 +62,13 @@ const Sidebar = () => {
               Todos
             </Nav.Link>
           </Link>
+          <Link href={"/categories"} passHref>
+            <Nav.Link className={activeTab === "/categories" ? "active" : ""}>
+              Categories list
+            </Nav.Link>
+          </Link>
           <Link href={"/products/all"} passHref>
-            <Nav.Link className={activeTab === "/products" ? "active" : ""}>
+            <Nav.Link className={activeTab === "/products/all" ? "active" : ""}>
               Products List
             </Nav.Link>
           </Link>

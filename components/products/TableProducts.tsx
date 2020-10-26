@@ -3,11 +3,10 @@ import { productListProps } from "../../models/productModel";
 import { Button, Image, Table } from "react-bootstrap";
 import styles from "../styles/ProductList.module.scss";
 import FormProduct from "./FormProduct";
-import { deletedProduct, updateProduct } from "../../pages/api/products";
+import { deletedProduct, updateProduct } from "../../api/products";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import * as action from "../../actions/productAction";
-import { isEmpty } from "@firebase/util";
 
 const TableProducts = (props: productListProps) => {
   const [showForm, setShowForm] = useState(false);
@@ -64,7 +63,7 @@ const TableProducts = (props: productListProps) => {
           <th>Image</th>
           <th>Price</th>
           <th>Description</th>
-          <th />
+          {props?.shopId && <th />}
         </tr>
       </thead>
       <tbody>
@@ -78,21 +77,23 @@ const TableProducts = (props: productListProps) => {
               </td>
               <td>{product?.price}</td>
               <td>{product?.description}</td>
-              <td className="text-center">
-                <Button
-                  variant="success"
-                  onClick={() => handleEdit(product)}
-                  className="mr-2"
-                >
-                  <i className="fas fa-edit" />
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDeleteProduct(product.id)}
-                >
-                  <i className="fas fa-trash-alt" />
-                </Button>
-              </td>
+              {props?.shopId && (
+                <td className="text-center">
+                  <Button
+                    variant="success"
+                    onClick={() => handleEdit(product)}
+                    className="mr-2"
+                  >
+                    <i className="fas fa-edit" />
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteProduct(product.id)}
+                  >
+                    <i className="fas fa-trash-alt" />
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
       </tbody>

@@ -7,7 +7,7 @@ import { isEmpty } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { setUser } from "../../actions/userAction";
-import { updateProfile } from "../../pages/api/auth";
+import { updateProfile } from "../../api/auth";
 import firebase from "firebase";
 
 const MyProfile = () => {

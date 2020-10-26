@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { FormSignInProps } from "../../models/authModel";
-import { signUpWithEmailPassword } from "../../pages/api/auth";
+import { signUpWithEmailPassword } from "../../api/auth";
 import { isEmpty } from "lodash";
 import { translateError } from "../../lib/translateError";
 

@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import { PRODUCTS_COLLECTION_KEY, PRODUCTS_SHOP_COLLECTION_KEY } from "./key";
 import { isEmpty } from "lodash";
+import {updateCategory} from "./categories";
 
 export const getListProductsAll = async () => {
   const db = firebase.firestore();
@@ -52,6 +53,7 @@ export const addProduct = async (product: object, shopId: string) => {
       ...product,
       id: pId,
       createAt: new Date(),
+      updateAt: new Date(),
     });
 };
 
@@ -69,7 +71,10 @@ export const updateProduct = async (
     .doc(shopId)
     .collection(PRODUCTS_SHOP_COLLECTION_KEY)
     .doc(productId)
-    .update(product);
+    .update({
+      ...product,
+      updateAt: new Date(),
+    });
 };
 
 export const deletedProduct = async (shopId, productId) => {

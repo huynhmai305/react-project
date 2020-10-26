@@ -12,7 +12,7 @@ export const productReducer = (
   action: Action
 ) => {
   if (isType(action, actions.setListProduct)) {
-    return [action.payload];
+    return [...action.payload];
   }
   if (isType(action, actions.addProduct)) {
     return [
