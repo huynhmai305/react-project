@@ -1,7 +1,8 @@
 import React from "react";
+import ShopIndex from "../../components/shops";
 
-const Shops = () => {
-  return <Shops />;
+const ShopsList = () => {
+  return <ShopIndex />;
 };
 
-export default Shops;
+export default ShopsList;

@@ -55,3 +55,29 @@ export const deletedCategory = async (categoryId) => {
 
   return await db.collection(CATEGORY_COLLECTION_KEY).doc(categoryId).delete();
 };
+
+export const increaseTotalProducts = async (categoryId) => {
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
+  if (!currentUser) return {};
+
+  const category = await db.collection(CATEGORY_COLLECTION_KEY).doc(categoryId);
+  const categoryInfo = await category.get();
+  return await category.update({
+    total_product: categoryInfo.data().total_product + 1,
+  });
+};
+
+export const decreaseTotalProducts = async (categoryId) => {
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
+  if (!currentUser) return {};
+
+  const category = await db.collection(CATEGORY_COLLECTION_KEY).doc(categoryId);
+  const categoryInfo = await category.get();
+  const totalProduct = categoryInfo.data().total_product;
+  const newTotal = totalProduct > 0 ? totalProduct - 1 : 0;
+  return await category.update({
+    total_product: newTotal,
+  });
+};

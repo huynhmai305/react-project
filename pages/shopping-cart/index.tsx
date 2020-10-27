@@ -1,7 +1,8 @@
 import React from "react";
+import ContainerShoppingCart from "../../components/shopping_cart";
 
-const ShoppingCart = () => {
-  return <div />
+const Shopping = () => {
+  return <ContainerShoppingCart />;
 };
 
-export default ShoppingCart;
+export default Shopping;

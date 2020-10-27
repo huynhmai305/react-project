@@ -43,9 +43,11 @@ const CategoriesList = () => {
   return (
     <Layout>
       <div className="pt-3">
-        <Button onClick={handleShow} className="mb-3">
-          Add category
-        </Button>
+        <div className="text-right mb-3">
+          <Button onClick={handleShow}>
+            <i className="fas fa-plus" /> <span>Add category</span>
+          </Button>
+        </div>
         <div className={styles.wrapperTable}>
           <TableCategories categories={listCategories} />
         </div>

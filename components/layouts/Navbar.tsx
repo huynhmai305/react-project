@@ -7,6 +7,7 @@ import {
   Dropdown,
   ButtonGroup,
   Image,
+  Badge,
 } from "react-bootstrap";
 import ModalSignIn from "../auth/ModalSignIn";
 import styles from "../../styles/Home.module.scss";
@@ -35,7 +36,7 @@ const Sidebar = () => {
   };
   const logOut = async () => {
     await signOut();
-    await dispatch(setUser(initialUser));
+    dispatch(setUser(initialUser));
     await Router.push("/");
   };
 
@@ -48,18 +49,17 @@ const Sidebar = () => {
 
   return (
     <Navbar bg="dark" variant="dark" className={styles.navbar} fixed="top">
-      <Navbar.Brand href="/" className="text-info">
-        <i className="fas fa-shopping-cart" />
-        Shopping cart
-      </Navbar.Brand>
+      <Link href={"/"} passHref>
+        <Navbar.Brand className="text-info">
+          <i className="fas fa-shopping-cart" />
+          Shopping cart
+        </Navbar.Brand>
+      </Link>
       {user.id && user.role === Role.admin && (
         <Nav className="mr-auto" onSelect={handleSelect}>
-          <Link href={"/todos"} passHref>
-            <Nav.Link
-              className={activeTab === "/todos" ? "active" : ""}
-              disabled
-            >
-              Todos
+          <Link href={"/shops"} passHref>
+            <Nav.Link className={activeTab === "/shops" ? "active" : ""}>
+              Shops List
             </Nav.Link>
           </Link>
           <Link href={"/categories"} passHref>
@@ -70,6 +70,14 @@ const Sidebar = () => {
           <Link href={"/products/all"} passHref>
             <Nav.Link className={activeTab === "/products/all" ? "active" : ""}>
               Products List
+            </Nav.Link>
+          </Link>
+          <Link href={"/todos"} passHref>
+            <Nav.Link
+              className={activeTab === "/todos" ? "active" : ""}
+              disabled
+            >
+              Todos
             </Nav.Link>
           </Link>
           <Link href={"/lessons"} passHref>
@@ -101,7 +109,7 @@ const Sidebar = () => {
       )}
       {user.id && user.role === Role.customer && (
         <Nav className="mr-auto" onSelect={handleSelect}>
-          <Link href={"/products"} as={"/shopping-cart"} passHref>
+          <Link href={"/shopping-cart"} passHref>
             <Nav.Link
               className={activeTab === "/shopping-cart" ? "active" : ""}
             >
@@ -111,7 +119,14 @@ const Sidebar = () => {
         </Nav>
       )}
       <Form inline>
-        {/*<FormControl type="text" placeholder="Search" className="mr-sm-2" />*/}
+        {user.id && user.role === Role.customer && (
+          <div className="mr-5 text-light">
+            <i className="fas fa-cart-arrow-down fa-2x" />
+            <Badge variant="danger" pill>
+              2
+            </Badge>
+          </div>
+        )}
         {user.id ? (
           <Dropdown as={ButtonGroup}>
             <Button variant="outline-info" href={"/profile"}>

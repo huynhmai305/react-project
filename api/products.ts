@@ -1,7 +1,8 @@
 import firebase from "firebase";
 import { PRODUCTS_COLLECTION_KEY, PRODUCTS_SHOP_COLLECTION_KEY } from "./key";
 import { isEmpty } from "lodash";
-import {updateCategory} from "./categories";
+import { Product } from "../models/productModel";
+import { decreaseTotalProducts, increaseTotalProducts } from "./categories";
 
 export const getListProductsAll = async () => {
   const db = firebase.firestore();
@@ -16,8 +17,7 @@ export const getListProductsAll = async () => {
     const productShop = await getListProductsShop(doc.id);
     arr.push(productShop);
   }
-  // @ts-ignore
-  return [...new Set(arr.flat(1))];
+  return arr.flat();
 };
 
 export const getListProductsShop = async (shopId: string) => {
@@ -38,13 +38,13 @@ export const getListProductsShop = async (shopId: string) => {
   return result;
 };
 
-export const addProduct = async (product: object, shopId: string) => {
+export const addProduct = async (product: Product, shopId: string) => {
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
 
   const pId = `p_${new Date().getTime()}`;
-  return await db
+  await db
     .collection(PRODUCTS_COLLECTION_KEY)
     .doc(shopId)
     .collection(PRODUCTS_SHOP_COLLECTION_KEY)
@@ -55,10 +55,14 @@ export const addProduct = async (product: object, shopId: string) => {
       createAt: new Date(),
       updateAt: new Date(),
     });
+  if (product.category?.value) {
+    await increaseTotalProducts(product.category?.value);
+  }
+  return pId;
 };
 
 export const updateProduct = async (
-  product: object,
+  product: Product,
   shopId: string,
   productId: string
 ) => {
@@ -82,10 +86,16 @@ export const deletedProduct = async (shopId, productId) => {
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
 
-  return await db
+  const doc: any = await db
     .collection(PRODUCTS_COLLECTION_KEY)
     .doc(shopId)
     .collection(PRODUCTS_SHOP_COLLECTION_KEY)
-    .doc(productId)
-    .delete();
+    .doc(productId);
+
+  const getProduct = await doc.get();
+  const category = getProduct.data().category;
+  if (category?.value) {
+    await decreaseTotalProducts(category?.value);
+  }
+  return await doc.delete();
 };

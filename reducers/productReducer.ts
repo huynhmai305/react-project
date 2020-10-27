@@ -12,16 +12,18 @@ export const productReducer = (
   action: Action
 ) => {
   if (isType(action, actions.setListProduct)) {
-    return [...action.payload];
+    return [action.payload];
   }
   if (isType(action, actions.addProduct)) {
     return [
       ...state,
       {
-        productName: action.payload.productName,
-        price: action.payload.price,
-        image: action.payload.image,
-        description: action.payload.description,
+        id: action.payload.newId,
+        productName: action.payload.newProduct.productName,
+        price: action.payload.newProduct.price,
+        image: action.payload.newProduct.image,
+        description: action.payload.newProduct.description,
+        category: action.payload.newProduct.category,
       },
     ];
   }
@@ -34,6 +36,7 @@ export const productReducer = (
             price: action.payload.product.price,
             image: action.payload.product.image,
             description: action.payload.product.description,
+            category: action.payload.product.category,
           }
         : product
     );

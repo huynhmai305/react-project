@@ -1,4 +1,4 @@
 export interface FormSignInProps {
-  onHide: () => void;
-  showSignUp: (show: boolean) => void;
+  onHide?: () => void;
+  showSignUp?: (show: boolean) => void;
 }

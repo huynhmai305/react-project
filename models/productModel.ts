@@ -5,16 +5,31 @@ export type Product = {
   url: string;
   description: string;
   image: string;
+  category?: optionCategory;
 };
 
 export type productProps = {
-  product: Product;
+  product?: Product;
 };
 
 export type productListProps = {
   productList: Product[];
   shopId?: string;
 };
+
+export interface formProductProps {
+  show: boolean;
+  handleClose: () => void;
+  handleAction: (product: {}, productId?: string) => void;
+  product?: Product;
+}
+
+export interface optionCategory {
+  value: string;
+  label: string;
+}
+
+export type optionCategoriesList = optionCategory[] | [];
 
 export const initProducts: Product[] = [
   {

@@ -1,12 +1,15 @@
 import Layout from "../layouts/Layout";
 import React from "react";
+import ListShop from "./ListShop";
 
-const ShopList = () => {
+const ShopIndex = () => {
   return (
     <Layout>
-      <div>Shop list</div>
+      <div className="p-5">
+        <ListShop />
+      </div>
     </Layout>
   );
 };
 
-export default ShopList;
+export default ShopIndex;

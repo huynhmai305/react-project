@@ -49,9 +49,9 @@ const SignInForm = (props: FormSignInProps) => {
       return setErrors({ response: translateError(result.error) });
     }
     setLoading(false);
+    props.onHide();
     const user = await getProfileUser();
     dispatch(setUser(user));
-    props.onHide();
   };
 
   const signInGoogle = async () => {

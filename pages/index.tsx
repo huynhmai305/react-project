@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import Layout from "../components/layouts/Layout";
 import firebase from "firebase";
 import { firebaseConfig } from "../lib/firebase";
-import { Image } from "react-bootstrap";
-import styles from "../styles/Home.module.scss";
+import CarouselHome from "../components/layouts/Carousel";
+import ProductLayout from "../components/products";
 
 const Index = () => {
   useEffect(() => {
@@ -15,11 +15,8 @@ const Index = () => {
   return (
     <Layout>
       <div>
-        {/*<h1>Welcome to my app !</h1>*/}
-        <Image
-          src="/images/background.png"
-          className={styles.background_image}
-        />
+        <CarouselHome />
+        <ProductLayout />
       </div>
     </Layout>
   );

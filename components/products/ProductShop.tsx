@@ -28,15 +28,15 @@ const ProductShop = () => {
   };
 
   const addNewProduct = async (product) => {
-    await addProduct(product, user.id);
-    await dispatch(action.addProduct(product));
+    const rs: any = await addProduct(product, user.id);
+    dispatch(action.addProduct({ newProduct: product, newId: rs }));
     handleClose();
     await Swal.fire({
       text: "Create new product successfully!",
       icon: "success",
-      showConfirmButton: true,
+      showConfirmButton: false,
       timer: 1500,
-    }).then(() => location.reload());
+    });
   };
 
   useEffect(() => {

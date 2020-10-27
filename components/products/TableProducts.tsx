@@ -10,7 +10,7 @@ import * as action from "../../actions/productAction";
 
 const TableProducts = (props: productListProps) => {
   const [showForm, setShowForm] = useState(false);
-  const [productProps, setProductProps] = useState({});
+  const [productProps, setProductProps] = useState();
   const dispatch = useDispatch();
 
   const handleClose = () => setShowForm(false);
@@ -62,8 +62,9 @@ const TableProducts = (props: productListProps) => {
           <th>Product name</th>
           <th>Image</th>
           <th>Price</th>
+          <th>Category</th>
           <th>Description</th>
-          {props?.shopId && <th />}
+          {props?.shopId ? <th /> : null}
         </tr>
       </thead>
       <tbody>
@@ -76,6 +77,7 @@ const TableProducts = (props: productListProps) => {
                 <Image src={product?.image} style={{ width: "100px" }} />
               </td>
               <td>{product?.price}</td>
+              <td>{product?.category?.label}</td>
               <td>{product?.description}</td>
               {props?.shopId && (
                 <td className="text-center">

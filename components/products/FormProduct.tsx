@@ -2,27 +2,25 @@ import { Button, Col, Form, Image, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 import Select from "react-select";
+import {
+  formProductProps,
+  optionCategoriesList,
+} from "../../models/productModel";
+import { getCategories } from "../../api/categories";
+import { isEmpty } from "lodash";
+import { useSelector } from "react-redux";
+import { RootState } from "../../reducers";
 
-interface Props {
-  show: boolean;
-  handleClose: () => void;
-  handleAction: (product: {}, productId?: string) => void;
-  product?: any;
-}
-
-const FormProduct = (props: Props) => {
+const FormProduct = (props: formProductProps) => {
+  const user = useSelector((state: RootState) => state.user);
   const [productName, setProductName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState({});
   const [imageName, setImageName] = useState<string>("");
-
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const [options, setOptions] = useState<optionCategoriesList>([]);
+  const [errors, setErrors] = useState<any>({});
 
   const handleImage = async (img) => {
     setImageName(img.name);
@@ -46,17 +44,56 @@ const FormProduct = (props: Props) => {
     });
   };
 
+  const validateFormProduct = (values) => {
+    const errorsForm: any = {};
+    if (!values.productName) {
+      errorsForm.productName = "Please enter product name";
+    }
+    if (!values.price) {
+      errorsForm.price = "Please enter product price";
+    }
+    if (isEmpty(values.category)) {
+      errorsForm.category = "Please select product category";
+    }
+    return errorsForm;
+  };
+
   const handleActionForm = async () => {
+    const errors = validateFormProduct({ productName, price, category });
+    if (!isEmpty(errors)) {
+      return setErrors(errors);
+    }
     if (props?.product) {
       await props.handleAction(
-        { productName, price, description, image },
-        props.product.id
+        { productName, price, description, image, category },
+        props.product?.id
       );
     } else {
-      await props.handleAction({ productName, price, description, image });
+      await props.handleAction({
+        productName,
+        price,
+        description,
+        image,
+        category,
+      });
     }
     setImageName("");
+    setErrors({});
   };
+
+  const getOptionCategories = async () => {
+    const categories: any = await getCategories();
+    if (isEmpty(categories)) return;
+    const rs = [];
+    for (const option of categories) {
+      rs.push({ value: option.id, label: option.name });
+    }
+    setOptions(rs);
+  };
+
+  useEffect(() => {
+    getOptionCategories();
+  }, [user.id]);
 
   useEffect(() => {
     if (props?.product) {
@@ -64,6 +101,7 @@ const FormProduct = (props: Props) => {
       setPrice(props.product.price);
       setDescription(props.product.description);
       setImage(props.product.image);
+      setCategory(props.product.category);
     }
   }, [props.product]);
 
@@ -91,6 +129,7 @@ const FormProduct = (props: Props) => {
             onChange={(e) => setProductName(e.target.value)}
             required
           />
+          <span className="text-danger">{errors?.productName}</span>
         </Form.Group>
         <Form.Row>
           <Form.Group as={Col}>
@@ -101,6 +140,7 @@ const FormProduct = (props: Props) => {
               value={category}
               onChange={(cate) => setCategory(cate)}
             />
+            <span className="text-danger">{errors?.category}</span>
           </Form.Group>
           <Form.Group as={Col}>
             <Form.Label>Price</Form.Label>
@@ -112,6 +152,7 @@ const FormProduct = (props: Props) => {
               value={price}
               onChange={(e) => setPrice(parseInt(e.target.value))}
             />
+            <span className="text-danger">{errors?.price}</span>
           </Form.Group>
         </Form.Row>
         <Form.Group>

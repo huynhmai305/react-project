@@ -4,7 +4,9 @@ import { Product } from "../models/productModel";
 const actionCreator = actionCreatorFactory();
 
 export const setListProduct = actionCreator<Product[]>("SET_LIST_PRODUCTS");
-export const addProduct = actionCreator<Product>("ADD_PRODUCT");
+export const addProduct = actionCreator<{ newProduct: Product; newId: string }>(
+  "ADD_PRODUCT"
+);
 export const updateProduct = actionCreator<{ product: Product; id: string }>(
   "UPDATE_PRODUCT"
 );
