@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Layout from "../layouts/Layout";
 import { Card, Col, Row } from "react-bootstrap";
 import CardList from "./CartList";
@@ -7,15 +7,25 @@ import { RootState } from "../../reducers";
 import CartTotal from "./CartTotal";
 import CartDiscount from "./CartDiscount";
 import CartPaymentMethod from "./CartPaymentMethod";
+import { setShoppingCart } from "../../api/cart";
 
 const ContainerShoppingCart = () => {
   const cart = useSelector((state: RootState) => state.cart);
+
+  const saveShoppingCart = async () => {
+    await setShoppingCart(cart);
+  };
+
+  useEffect(() => {
+    saveShoppingCart();
+  }, [cart]);
+
   return (
     <Layout>
       <section className="p-5">
         <Row>
           <Col lg={8}>
-            <CardList productList={cart} />
+            <CardList cartList={cart.cartList} totalCart={cart.quantity} />
             <Card className="mb-3">
               <Card.Body>
                 <h5 className="mb-4">Expected shipping delivery</h5>

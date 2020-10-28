@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import * as firebase from "firebase";
 import { CATEGORY_COLLECTION_KEY } from "./key";
 import { isEmpty } from "lodash";
 

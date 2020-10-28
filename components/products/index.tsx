@@ -14,7 +14,6 @@ const ProductLayout = () => {
 
   const getListProductAll = async () => {
     const rs: any = await getListProductsAll();
-    setList(rs);
     dispatch(setListProduct(rs));
   };
 

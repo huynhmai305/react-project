@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { productProps } from "../../models/productModel";
 import { Badge, Button, Image } from "react-bootstrap";
 import styles from "../styles/ProductList.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart, increaseQuantity } from "../../actions/cartAction";
+import { RootState } from "../../reducers";
+import { isEmpty } from "lodash";
+import { setShoppingCart } from "../../api/cart";
 
 const ProductItem = (props: productProps) => {
+  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleAddCart = async (product) => {
+    // check product is existed in cart
+    const checkItemInCart = cart.cartList.filter(
+      (item) => item.product.id === product.id
+    );
+    // if existed, increase quantity item in cart
+    if (!isEmpty(checkItemInCart))
+      return dispatch(increaseQuantity(checkItemInCart[0]));
+    // if not existed, add new
+    return dispatch(
+      addCart({ product: { ...product, price: parseInt(product.price) } })
+    );
+  };
+
+  const saveShoppingCart = async () => {
+    await setShoppingCart(cart);
+  };
+
+  useEffect(() => {
+    saveShoppingCart();
+  }, [cart]);
+
   return (
     <div className={styles.product}>
       <h2 className={styles.product__title}>{props.product.productName}</h2>
@@ -18,12 +48,9 @@ const ProductItem = (props: productProps) => {
           ${props.product.price}
         </Badge>
         <Button
-          className={`${styles.snipcart_add_item} ${styles.product__button}`}
-          data-item-id={props.product.id}
-          data-item-name={props.product.productName}
-          data-item-price={props.product.price}
-          data-item-url={props.product.url}
-          data-item-image={props.product.image}
+          variant="info"
+          onClick={() => handleAddCart(props.product)}
+          className={`${styles.product__button}`}
         >
           <i className="fas fa-cart-plus fa-2x" />
         </Button>

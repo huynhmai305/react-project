@@ -9,9 +9,14 @@ import { setUser } from "../../actions/userAction";
 import firebase from "firebase";
 import { firebaseConfig } from "../../lib/firebase";
 import { isEmpty } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reducers";
+import { Role } from "../../models/userModel";
+import { getShoppingCart } from "../../api/cart";
+import { setCart } from "../../actions/cartAction";
 
 const Layout = ({ children }) => {
+  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const getUserLayout = async () => {
@@ -19,6 +24,12 @@ const Layout = ({ children }) => {
     if (!isEmpty(user)) {
       dispatch(setUser(user));
     }
+  };
+
+  const getCartCustomer = async () => {
+    if (user.role !== Role.customer) return;
+    const cart: any = await getShoppingCart();
+    if (!isEmpty(cart)) return dispatch(setCart(cart));
   };
 
   useEffect(() => {
@@ -31,6 +42,10 @@ const Layout = ({ children }) => {
       }
     });
   });
+
+  useEffect(() => {
+    getCartCustomer();
+  }, [user.role]);
 
   return (
     <div className={styles.container}>

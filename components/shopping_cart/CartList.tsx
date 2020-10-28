@@ -1,21 +1,23 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import CartItem from "./CartItem";
-import { productListProps } from "../../models/productModel";
 import { isEmpty } from "lodash";
+import { CartListProps } from "../../models/cartModel";
 
-const CartList = (props: productListProps) => {
+const CartList = (props: CartListProps) => {
   return (
     <Card className="mb-3">
       <Card.Body>
         <h5 className="mb-4">
-          Cart (<span>2</span> items)
+          Cart (<span>{props.totalCart}</span> items)
         </h5>
-        {!isEmpty(props.productList) &&
-          props.productList.map((item, key) => (
-            <CartItem product={item} key={key} />
+        {!isEmpty(props.cartList) &&
+          props.cartList.map((item, key) => (
+            <div key={key}>
+              <CartItem cart={item} />
+              <hr className="mb-4" />
+            </div>
           ))}
-        <hr className="mb-4" />
         <p className="text-primary mb-0">
           <i className="fas fa-info-circle mr-1" />
           Do not delay the purchase, adding items to your cart does not mean

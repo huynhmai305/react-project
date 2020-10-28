@@ -1,36 +1,40 @@
-import { Card, FormControl } from "react-bootstrap";
-import Link from "next/link";
-import React from "react";
+import { Accordion, Card, FormControl } from "react-bootstrap";
+import React, { useState } from "react";
+import styles from "../styles/Cart.module.scss";
 
 const CartDiscount = () => {
+  const [discount, setDiscount] = useState<string>("");
+
+  const handleDiscount = async (e) => {
+    setDiscount(e.target.value);
+    // @todo
+  };
+
   return (
     <Card>
-      <Card.Body>
-        <Link href="#collapseExample1">
-          <a
-            className="dark-grey-text d-flex justify-content-between"
-            data-toggle="collapse"
-            aria-expanded="false"
-            aria-controls="collapseExample1"
+      <Card.Body className="p-0">
+        <Accordion>
+          <Accordion.Toggle
+            as={Card.Header}
+            eventKey="discount"
+            className={`d-flex justify-content-between ${styles.discountCollapse}`}
           >
             Add a discount code (optional)
-            <span>
-              <i className="fas fa-chevron-down pt-1" />
-            </span>
-          </a>
-        </Link>
-        <div className="collapse" id="collapseExample1">
-          <div className="mt-3">
-            <div className="md-form md-outline mb-0">
+            <i className="fas fa-chevron-down pt-1" />
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey="discount">
+            <Card.Body>
               <FormControl
+                value={discount}
                 type="text"
-                id="discount-code1"
+                id="discount-code"
                 className="form-control font-weight-light"
                 placeholder="Enter discount code"
+                onChange={handleDiscount}
               />
-            </div>
-          </div>
-        </div>
+            </Card.Body>
+          </Accordion.Collapse>
+        </Accordion>
       </Card.Body>
     </Card>
   );

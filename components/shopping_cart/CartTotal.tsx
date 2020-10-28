@@ -1,7 +1,12 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { RootState } from "../../reducers";
+import PaypalButton from "./PaypalButton";
 
 const CartTotal = () => {
+  const cart = useSelector((state: RootState) => state.cart);
+
   return (
     <Card className="mb-3">
       <Card.Body>
@@ -9,7 +14,7 @@ const CartTotal = () => {
         <ul className="list-group list-group-flush">
           <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
             Temporary amount
-            <span>$25.98</span>
+            <span>${cart.total || 0}</span>
           </li>
           <li className="list-group-item d-flex justify-content-between align-items-center px-0">
             Shipping
@@ -19,17 +24,15 @@ const CartTotal = () => {
             <div>
               <strong>The total amount of</strong>
               <strong>
-                <p className="mb-0">(including VAT)</p>
+                <p className="mb-0">(including VAT 10%)</p>
               </strong>
             </div>
             <span>
-              <strong>$53.98</strong>
+              <strong>${cart.total ? (cart.total * 1.1).toFixed(2) : 0}</strong>
             </span>
           </li>
         </ul>
-        <Button className="btn btn-primary btn-block waves-effect waves-light">
-          go to checkout
-        </Button>
+        {cart.total && <PaypalButton total={(cart.total * 1.1).toFixed(2)} />}
       </Card.Body>
     </Card>
   );

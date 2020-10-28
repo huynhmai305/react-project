@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import * as firebase from "firebase";
 import { PRODUCTS_COLLECTION_KEY, PRODUCTS_SHOP_COLLECTION_KEY } from "./key";
 import { isEmpty } from "lodash";
 import { Product } from "../models/productModel";

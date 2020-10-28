@@ -12,13 +12,15 @@ import {
   CategoriesState,
   initialCategories,
 } from "./categoryReducer";
+import { cartReducer, CartState, initialCart } from "./cartReducer";
 
 export type RootState = {
   todoList: TodoListState;
   user: UserState;
   productList: ProductsState;
   quiz: QuizState;
-  categories: CategoriesState,
+  categories: CategoriesState;
+  cart: CartState;
 };
 
 export const initialState = {
@@ -27,6 +29,7 @@ export const initialState = {
   productList: initialProducts,
   quiz: initialQuiz,
   categories: initialCategories,
+  cart: initialCart,
 };
 
 export default {
@@ -36,4 +39,5 @@ export default {
   productList: productReducer,
   quiz: quizReducer,
   categories: categoriesReducer,
+  cart: cartReducer,
 };

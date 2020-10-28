@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Image,
   Badge,
+  NavLink,
 } from "react-bootstrap";
 import ModalSignIn from "../auth/ModalSignIn";
 import styles from "../../styles/Home.module.scss";
@@ -26,6 +27,7 @@ const Sidebar = () => {
   const [show, setShow] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("");
   const user = useSelector((state: RootState) => state.user);
+  const totalCart = useSelector((state: RootState) => state.cart.quantity);
   const dispatch = useDispatch();
 
   const handleClose = () => setShow(false);
@@ -107,25 +109,33 @@ const Sidebar = () => {
           </Link>
         </Nav>
       )}
-      {user.id && user.role === Role.customer && (
-        <Nav className="mr-auto" onSelect={handleSelect}>
-          <Link href={"/shopping-cart"} passHref>
-            <Nav.Link
-              className={activeTab === "/shopping-cart" ? "active" : ""}
-            >
-              Shopping cart
-            </Nav.Link>
-          </Link>
-        </Nav>
-      )}
-      <Form inline>
+      {/*{user.id && user.role === Role.customer && (*/}
+      {/*  <Nav className="mr-auto" onSelect={handleSelect}>*/}
+      {/*    <Link href={"/shopping-cart"} passHref>*/}
+      {/*      <Nav.Link*/}
+      {/*        className={activeTab === "/shopping-cart" ? "active" : ""}*/}
+      {/*      >*/}
+      {/*        Shopping cart*/}
+      {/*      </Nav.Link>*/}
+      {/*    </Link>*/}
+      {/*  </Nav>*/}
+      {/*)}*/}
+      <Form inline className="ml-auto">
         {user.id && user.role === Role.customer && (
-          <div className="mr-5 text-light">
-            <i className="fas fa-cart-arrow-down fa-2x" />
-            <Badge variant="danger" pill>
-              2
-            </Badge>
-          </div>
+          <Nav>
+            <Link href={"/shopping-cart"} passHref>
+              <NavLink>
+                <div className="mr-5 text-light">
+                  <i className="fas fa-cart-arrow-down fa-2x" />
+                  {totalCart > 0 && (
+                    <Badge variant="danger" pill>
+                      {totalCart}
+                    </Badge>
+                  )}
+                </div>
+              </NavLink>
+            </Link>
+          </Nav>
         )}
         {user.id ? (
           <Dropdown as={ButtonGroup}>

@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import * as firebase from "firebase";
 import { MY_APP_COLLECTION_KEY } from "./key";
 import { Role } from "../models/userModel";
 
