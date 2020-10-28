@@ -22,5 +22,5 @@ export interface CartListProps {
 }
 
 export interface PaypalButtonProps {
-  total: any;
+  totalAmount: any;
 }

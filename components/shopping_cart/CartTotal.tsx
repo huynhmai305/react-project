@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
-import PaypalButton from "./PaypalButton";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const CartTotal = () => {
   const cart = useSelector((state: RootState) => state.cart);
+  const [error, setError] = useState(null);
+
+  const handleSuccess = async (details, data) => {
+    alert("Transaction completed by " + details.payer.name.given_name);
+    // @todo: save db
+    return fetch("/paypal-transaction-complete", {
+      method: "post",
+      body: JSON.stringify({
+        orderID: data.orderID,
+      }),
+    });
+  };
 
   return (
     <Card className="mb-3">
@@ -32,7 +44,23 @@ const CartTotal = () => {
             </span>
           </li>
         </ul>
-        {cart.total && <PaypalButton total={(cart.total * 1.1).toFixed(2)} />}
+        {cart.total && (
+          <div>
+            <PayPalButton
+              amount={(cart.total * 1.1).toFixed(2)}
+              onSuccess={handleSuccess}
+              onError={(error: any) => setError(error)}
+              // options={{
+              //   clientId: process.env.CLIENT_SANDBOX_ID,
+              // }}
+            />
+            {error && (
+              <span className="text-danger">
+                Error Occurred in processing payment! Please try again.
+              </span>
+            )}
+          </div>
+        )}
       </Card.Body>
     </Card>
   );
