@@ -3,21 +3,50 @@ import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { PayPalButton } from "react-paypal-button-v2";
+import Swal from "sweetalert2";
 
 const CartTotal = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const [error, setError] = useState(null);
 
-  // const handleSuccess = async (details, data) => {
-  //   alert("Transaction completed by " + details.payer.name.given_name);
-  //   // @todo: save db
-  //   return fetch("/paypal-transaction-complete", {
-  //     method: "post",
-  //     body: JSON.stringify({
-  //       orderID: data.orderID,
-  //     }),
-  //   });
-  // };
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "USD",
+            value: (cart.total * 1.1).toFixed(2),
+          },
+        },
+      ],
+      application_context: {
+        shipping_preference: "NO_SHIPPING", // default is "GET_FROM_FILE"
+      },
+    });
+  };
+
+  const onApprove = async (data, actions) => {
+    // Capture the funds from the transaction
+    return actions.order
+      .capture()
+      .then(function (details) {
+        // Show a success message to your buyer
+        Swal.fire({
+          text: `Congrats, ${details.payer.name.given_name} just checkout successfully!`,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        // @todo: Call your server to save the transaction
+        return fetch("/paypal-transaction-complete", {
+          method: "post",
+          body: JSON.stringify({
+            orderID: data.orderID,
+          }),
+        });
+      })
+      .catch((error) => setError(error));
+  };
 
   return (
     <Card className="mb-3">
@@ -46,40 +75,7 @@ const CartTotal = () => {
         </ul>
         {cart.total && (
           <div>
-            <PayPalButton
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        currency_code: "USD",
-                        value: (cart.total * 1.1).toFixed(2),
-                      },
-                    },
-                  ],
-                  // application_context: {
-                  //   shipping_preference: "NO_SHIPPING" // default is "GET_FROM_FILE"
-                  // }
-                });
-              }}
-              onApprove={(data, actions) => {
-                // Capture the funds from the transaction
-                return actions.order.capture().then(function (details) {
-                  // Show a success message to your buyer
-                  alert(
-                    "Transaction completed by " + details.payer.name.given_name
-                  );
-                  setError("error");
-                  // OPTIONAL: Call your server to save the transaction
-                  return fetch("/paypal-transaction-complete", {
-                    method: "post",
-                    body: JSON.stringify({
-                      orderID: data.orderID,
-                    }),
-                  });
-                });
-              }}
-            />
+            <PayPalButton createOrder={createOrder} onApprove={onApprove} />
             {error && (
               <span className="text-danger">
                 <i className="fas fa-exclamation-triangle" /> Error occurred in

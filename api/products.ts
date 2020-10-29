@@ -43,15 +43,17 @@ export const addProduct = async (product: Product, shopId: string) => {
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
 
+  const shop_doc_key = `shop_${shopId}`;
   const pId = `p_${new Date().getTime()}`;
   await db
     .collection(PRODUCTS_COLLECTION_KEY)
-    .doc(shopId)
+    .doc(shop_doc_key)
     .collection(PRODUCTS_SHOP_COLLECTION_KEY)
     .doc(pId)
     .set({
       ...product,
       id: pId,
+      shopId: shopId,
       createAt: new Date(),
       updateAt: new Date(),
     });

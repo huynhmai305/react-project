@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../layouts/Layout";
 import ProductList from "./ProductList";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
