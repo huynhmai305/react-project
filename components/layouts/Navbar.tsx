@@ -90,14 +90,6 @@ const Sidebar = () => {
               Lessons Quiz app
             </Nav.Link>
           </Link>
-          <Link href={"/quiz-game"} passHref>
-            <Nav.Link
-              className={activeTab === "/quiz-game" ? "active" : ""}
-              disabled
-            >
-              Quiz game
-            </Nav.Link>
-          </Link>
         </Nav>
       )}
       {user.id && user.role === Role.shop && (
