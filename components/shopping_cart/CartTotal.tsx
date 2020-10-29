@@ -8,16 +8,16 @@ const CartTotal = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const [error, setError] = useState(null);
 
-  const handleSuccess = async (details, data) => {
-    alert("Transaction completed by " + details.payer.name.given_name);
-    // @todo: save db
-    return fetch("/paypal-transaction-complete", {
-      method: "post",
-      body: JSON.stringify({
-        orderID: data.orderID,
-      }),
-    });
-  };
+  // const handleSuccess = async (details, data) => {
+  //   alert("Transaction completed by " + details.payer.name.given_name);
+  //   // @todo: save db
+  //   return fetch("/paypal-transaction-complete", {
+  //     method: "post",
+  //     body: JSON.stringify({
+  //       orderID: data.orderID,
+  //     }),
+  //   });
+  // };
 
   return (
     <Card className="mb-3">
@@ -47,16 +47,43 @@ const CartTotal = () => {
         {cart.total && (
           <div>
             <PayPalButton
-              amount={(cart.total * 1.1).toFixed(2)}
-              onSuccess={handleSuccess}
-              onError={(error: any) => setError(error)}
-              // options={{
-              //   clientId: process.env.CLIENT_SANDBOX_ID,
-              // }}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        currency_code: "USD",
+                        value: (cart.total * 1.1).toFixed(2),
+                      },
+                    },
+                  ],
+                  // application_context: {
+                  //   shipping_preference: "NO_SHIPPING" // default is "GET_FROM_FILE"
+                  // }
+                });
+              }}
+              onApprove={(data, actions) => {
+                // Capture the funds from the transaction
+                return actions.order.capture().then(function (details) {
+                  // Show a success message to your buyer
+                  alert(
+                    "Transaction completed by " + details.payer.name.given_name
+                  );
+                  setError("error");
+                  // OPTIONAL: Call your server to save the transaction
+                  return fetch("/paypal-transaction-complete", {
+                    method: "post",
+                    body: JSON.stringify({
+                      orderID: data.orderID,
+                    }),
+                  });
+                });
+              }}
             />
             {error && (
               <span className="text-danger">
-                Error Occurred in processing payment! Please try again.
+                <i className="fas fa-exclamation-triangle" /> Error occurred in
+                processing payment! Please try again.
               </span>
             )}
           </div>

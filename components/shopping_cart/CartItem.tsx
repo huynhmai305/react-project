@@ -31,8 +31,10 @@ const CartItem = (props: CartItemProps) => {
   return (
     <Row className="mb-4">
       <Col lg={3} md={5} xl={3}>
-        <div className="view zoom overlay z-depth-1 rounded mb-3">
-          <Image src={props.cart.product.image} fluid className="w-70" />
+        <div className="view zoom z-depth-1 rounded mb-3">
+          <Image src={props.cart.product.image} fluid alt="product image" />
+          {/*<div className="card-img-overlay">*/}
+          {/*</div>*/}
           {/*<Link href={"#!"}>*/}
           {/*  <div className="mask waves-effect waves-light">*/}
           {/*    <Image src={props.cart.product.image} fluid className="w-100" />*/}
@@ -65,6 +67,7 @@ const CartItem = (props: CartItemProps) => {
                     name="quantity"
                     value={props.cart.quantity || 1}
                     type="number"
+                    readOnly
                   />
                   <InputGroup.Prepend>
                     <Button onClick={handlePlusItem}>
