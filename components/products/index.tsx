@@ -26,11 +26,9 @@ const ProductLayout = () => {
   }, [products]);
 
   return (
-    <Layout>
-      <div className="p-5">
-        <ProductList productList={list} />
-      </div>
-    </Layout>
+    <div className="p-5">
+      <ProductList productList={list} />
+    </div>
   );
 };
 
