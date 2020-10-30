@@ -1,15 +1,11 @@
-import { CartList } from "../models/cartModel";
+import { CartList, initCartList } from "../models/cartModel";
 import { Action } from "redux";
 import { isType } from "typescript-fsa";
 import * as actions from "../actions/cartAction";
 
 export type CartState = CartList;
 
-export const initialCart = {
-  cartList: [],
-  total: 0,
-  quantity: 0,
-};
+export const initialCart = initCartList;
 
 export const cartReducer = (state: CartState = initialCart, action: Action) => {
   if (isType(action, actions.setCart)) {

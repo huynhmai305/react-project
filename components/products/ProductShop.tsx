@@ -28,7 +28,7 @@ const ProductShop = () => {
   };
 
   const addNewProduct = async (product) => {
-    const rs: any = await addProduct(product, user.id);
+    const rs: any = await addProduct(product);
     dispatch(action.addProduct({ newProduct: product, newId: rs }));
     handleClose();
     await Swal.fire({

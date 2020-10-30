@@ -22,6 +22,12 @@ import { setUser } from "../../actions/userAction";
 import { initialUser } from "../../reducers/userReducer";
 import Link from "next/link";
 import { Role } from "../../models/userModel";
+import { setListTodo } from "../../actions/todoAction";
+import { initTodoList } from "../../models/todoModel";
+import { setListProduct } from "../../actions/productAction";
+import { setCategories } from "../../actions/categoryAction";
+import { initCartList } from "../../models/cartModel";
+import { setCart } from "../../actions/cartAction";
 
 const Sidebar = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -38,7 +44,12 @@ const Sidebar = () => {
   };
   const logOut = async () => {
     await signOut();
+    // convert default redux
     dispatch(setUser(initialUser));
+    dispatch(setListTodo(initTodoList));
+    dispatch(setListProduct([]));
+    dispatch(setCategories([]));
+    dispatch(setCart(initCartList));
     await Router.push("/");
   };
 
@@ -95,23 +106,12 @@ const Sidebar = () => {
       {user.id && user.role === Role.shop && (
         <Nav className="mr-auto" onSelect={handleSelect}>
           <Link href={"/products/[shopId]"} as={"/products/list"} passHref>
-            <Nav.Link className={activeTab === "/my-products" ? "active" : ""}>
+            <Nav.Link className={activeTab === "/products/list" ? "active" : ""}>
               My products
             </Nav.Link>
           </Link>
         </Nav>
       )}
-      {/*{user.id && user.role === Role.customer && (*/}
-      {/*  <Nav className="mr-auto" onSelect={handleSelect}>*/}
-      {/*    <Link href={"/shopping-cart"} passHref>*/}
-      {/*      <Nav.Link*/}
-      {/*        className={activeTab === "/shopping-cart" ? "active" : ""}*/}
-      {/*      >*/}
-      {/*        Shopping cart*/}
-      {/*      </Nav.Link>*/}
-      {/*    </Link>*/}
-      {/*  </Nav>*/}
-      {/*)}*/}
       <Form inline className="ml-auto">
         {user.id && user.role === Role.customer && (
           <Nav>

@@ -20,11 +20,24 @@ export const getListProductsAll = async () => {
   return arr.flat();
 };
 
+export const initProductsShop = async (shopId: string) => {
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
+  if (!currentUser) return;
+  
+  return db
+    .collection(PRODUCTS_COLLECTION_KEY)
+    .doc(shopId)
+    .set({
+      createAt: new Date().toDateString(),
+    })
+}
+
 export const getListProductsShop = async (shopId: string) => {
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return;
-
+  
   const docs: any = await db
     .collection(PRODUCTS_COLLECTION_KEY)
     .doc(shopId)
@@ -38,22 +51,21 @@ export const getListProductsShop = async (shopId: string) => {
   return result;
 };
 
-export const addProduct = async (product: Product, shopId: string) => {
+export const addProduct = async (product: Product) => {
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
 
-  const shop_doc_key = `shop_${shopId}`;
   const pId = `p_${new Date().getTime()}`;
   await db
     .collection(PRODUCTS_COLLECTION_KEY)
-    .doc(shop_doc_key)
+    .doc(currentUser.uid.toString())
     .collection(PRODUCTS_SHOP_COLLECTION_KEY)
     .doc(pId)
     .set({
       ...product,
       id: pId,
-      shopId: shopId,
+      shopId: currentUser.uid.toString(),
       createAt: new Date(),
       updateAt: new Date(),
     });
@@ -71,7 +83,7 @@ export const updateProduct = async (
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
-
+  
   return await db
     .collection(PRODUCTS_COLLECTION_KEY)
     .doc(shopId)
@@ -87,7 +99,7 @@ export const deletedProduct = async (shopId, productId) => {
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return {};
-
+  
   const doc: any = await db
     .collection(PRODUCTS_COLLECTION_KEY)
     .doc(shopId)

@@ -12,6 +12,12 @@ export type CartList = {
   quantity?: number;
 };
 
+export const initCartList = {
+  cartList: [],
+  total: 0,
+  quantity: 0,
+};
+
 export interface CartItemProps {
   cart: CartItem;
 }

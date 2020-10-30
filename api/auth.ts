@@ -1,6 +1,7 @@
 import * as firebase from "firebase";
 import { MY_APP_COLLECTION_KEY } from "./key";
 import { Role } from "../models/userModel";
+import { initProductsShop } from "./products";
 
 export const signInWithGoogle = async () => {
   const auth = firebase.auth();
@@ -43,6 +44,7 @@ export const addShopEmailPassword = async (email: string, password: string) => {
   await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   try {
     await auth.createUserWithEmailAndPassword(email, password);
+    await initProductsShop(auth.currentUser.uid);
   } catch (error) {
     return { error };
   }

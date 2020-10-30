@@ -7,6 +7,7 @@ import { deletedProduct, updateProduct } from "../../api/products";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import * as action from "../../actions/productAction";
+import { isEmpty } from "lodash";
 
 const TableProducts = (props: productListProps) => {
   const [showForm, setShowForm] = useState(false);
@@ -68,7 +69,7 @@ const TableProducts = (props: productListProps) => {
         </tr>
       </thead>
       <tbody>
-        {props.productList &&
+        {!isEmpty(props.productList) &&
           props.productList.map((product, key) => (
             <tr key={key}>
               <td>{product?.id}</td>

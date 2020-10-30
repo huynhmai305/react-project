@@ -11,6 +11,9 @@ export const todoListReducer = (
   state: TodoListState = initialTodoList,
   action: Action
 ) => {
+  if (isType(action, actions.setListTodo)) {
+    return [...action.payload];
+  }
   if (isType(action, actions.addTodo)) {
     return [
       ...state,

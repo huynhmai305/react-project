@@ -1,7 +1,9 @@
 import actionCreatorFactory from "typescript-fsa";
+import { TodoList } from "../models/todoModel";
 
 const actionCreator = actionCreatorFactory("todos");
 
+export const setListTodo = actionCreator<TodoList>("SET_LIST_TODO");
 export const addTodo = actionCreator<{ title: String }>("ADD_TODO");
 export const toggleTodo = actionCreator<{ id: Number }>("TOGGLE_TODO");
 export const deleteTodo = actionCreator<{ id: Number }>("DELETE_TODO");

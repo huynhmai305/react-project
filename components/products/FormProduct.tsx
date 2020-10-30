@@ -78,6 +78,11 @@ const FormProduct = (props: formProductProps) => {
       });
     }
     setImageName("");
+    setProductName("");
+    setCategory({});
+    setImage("");
+    setDescription("");
+    setPrice(0);
     setErrors({});
   };
 

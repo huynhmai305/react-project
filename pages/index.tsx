@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import Layout from "../components/layouts/Layout";
 import firebase from "firebase";
 import { firebaseConfig } from "../lib/firebase";
-import CarouselHome from "../components/layouts/Carousel";
-import ProductLayout from "../components/products";
+import Main from "../components/layouts/Main";
 
 const Index = () => {
   useEffect(() => {
@@ -13,13 +11,8 @@ const Index = () => {
   });
 
   return (
-    <Layout>
-      <div>
-        <CarouselHome />
-        <ProductLayout />
-      </div>
-    </Layout>
-  );
+    <Main />
+  )
 };
 
 export default Index;
