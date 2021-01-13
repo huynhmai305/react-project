@@ -1,0 +1,26 @@
+div.banner {
+  width: 100vw;
+  height: 500px;
+  background:#0E0E0E url(/images/banner.jpeg) no-repeat center;
+  position: relative;
+  > p {
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 2px solid;
+    font-size: 22px;
+    padding: 10px;
+    border-top: 2px solid;
+    color: #17a2b8;
+  }
+}
+.txt {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fbdda7;
+  font-size: 25px;
+  padding: 20px;
+}
